@@ -36,8 +36,13 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
 
     const handleDeleteConfirm = async () => {
         const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`);
-        toast(`${response.data.message}`);
-        onMessageDelete(message._id);
+        toast.success(`${response.data.message}`);
+        if (message._id && typeof message._id === 'string') {
+            onMessageDelete(message._id);
+        } else {
+            console.error("Invalid message ID");
+            toast.error("Error: Invalid message ID");
+        }
     }
 
   return (
@@ -72,4 +77,4 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   )
 }
 
-export default MessageCard
+export default MessageCard;
